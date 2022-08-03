@@ -1,10 +1,9 @@
-
-
 // Do not change this class
 class FeatureApi {
 
     constructor() {
-        this.users = new Map();
+        this.users = new Map(); // dictionary in c#, python / map in java 
+        // Key is the UserId, Value is an array of FeatureIds
         this.users.set(1111, [0, 1]);
         this.users.set(2222, [2, 0]);
         this.users.set(3333, [0, 1, 2]);
@@ -13,6 +12,7 @@ class FeatureApi {
     }
 
     // returns all feature definitions
+    // will return [{id: 0, description: 'Feature 1', active: true }, ... , ...]
     getAllFeatures() 
     {
         return [
@@ -25,14 +25,9 @@ class FeatureApi {
     }
 
     // returns an array of feature Ids
+    // example for userId 1111 it will return [0,1]
+    // example for userId 2222 it will return [2, 0]
     getFeatureIdsForUserId(userId) {
-        if(!userId) {
-            throw "Pass in user id";
-        }
-
-        if(!this.users.has(userId)) {
-            throw "User does not exist";
-        }
         return this.users.get(userId);
     }
 }
@@ -47,12 +42,11 @@ class Feature {
 
 // Implement this class so that it fulfils the criteria below:
     // 1. Retrieves all active features for a specified user
-    // 2. Caches the result for a reasonable amount of time
 
 class FeatureService {
     
     constructor() {
-        // initalize some stuff
+        this.featureApi = new FeatureApi();
     }
 
     // userId is an interger
@@ -61,11 +55,3 @@ class FeatureService {
         throw "Not implemented exception";
     }
 } 
-
-const featureService = new FeatureService();
-const testUserIds = [1111,2222,3333,4444,5555];
-testUserIds.forEach(userId => {
-    console.log(featureService.getActiveFeaturesForUser(userId))
-});
-
-
